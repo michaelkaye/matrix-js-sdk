@@ -176,7 +176,21 @@ export class AutoDiscovery {
             `${hsUrl}/_matrix/client/versions`,
         );
         if (!hsVersions || !hsVersions.raw["versions"]) {
-            logger.error("Invalid /versions response");
+            let reason = "because ";
+ 	    if (hsVersions) {
+                 if (hsVersions.raw) {
+                      reason += "'versions' not found in JSON ";
+                 }
+                 if (hsVersions.error) {
+                      reason += `${error} caused request to fail `;
+                 }
+                 if (hsVersions.reason) {
+                      reason += `fetchWellKnownObject returned ${hsVersions.reason}`;
+                 }
+            } else {
+                reason += "promise did not resolve to an object ";
+            } 
+            logger.error(`Invalid /versions response ${reason}`);
             clientConfig["m.homeserver"].error = AutoDiscovery.ERROR_INVALID_HOMESERVER;
 
             // Supply the base_url to the caller because they may be ignoring liveliness
