@@ -182,7 +182,7 @@ export class AutoDiscovery {
                       reason += "'versions' not found in JSON ";
                  }
                  if (hsVersions.error) {
-                      reason += `${error} caused request to fail `;
+                      reason += `${hsVersions.error} caused request to fail `;
                  }
                  if (hsVersions.reason) {
                       reason += `fetchWellKnownObject returned ${hsVersions.reason}`;
